@@ -1,342 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tax Calculator</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7f6;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            color: #333;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f7f6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        color: #333;
+      }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            width: 90%;
-            max-width: 700px;
-        }
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 700px;
+      }
 
-        .header h1 {
-            color: #007bff;
-            margin-bottom: 10px;
-        }
+      .header h1 {
+        color: #007bff;
+        margin-bottom: 10px;
+      }
 
-        .header p {
-            font-size: 0.9em;
-            color: #555;
-        }
+      .header p {
+        font-size: 0.9em;
+        color: #555;
+      }
 
-        .calculator-container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 700px;
-            text-align: center;
-            margin-bottom: 30px; /* Added margin to separate from footer */
-        }
+      .calculator-container {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 700px;
+        text-align: center;
+        margin-bottom: 30px; /* Added margin to separate from footer */
+      }
 
-        h2 {
-            color: #333;
-            margin-bottom: 25px;
-            font-size: 1.8em;
-        }
+      h2 {
+        color: #333;
+        margin-bottom: 25px;
+        font-size: 1.8em;
+      }
 
-        .input-group {
-            margin-bottom: 25px;
-            text-align: left;
-        }
+      .input-group {
+        margin-bottom: 25px;
+        text-align: left;
+      }
 
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
+      .input-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #555;
+      }
 
-        .input-group input {
-            width: calc(100% - 20px);
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1.1em;
-            box-sizing: border-box;
-        }
+      .input-group input {
+        width: calc(100% - 20px);
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1.1em;
+        box-sizing: border-box;
+      }
 
+      .results-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .result-box {
+        background-color: #f8f9fa;
+        border: 1px solid #e2e6ea;
+        border-radius: 6px;
+        padding: 15px 20px;
+        text-align: left;
+      }
+
+      .result-box p:first-child {
+        margin-top: 0;
+        margin-bottom: 5px;
+        color: #777;
+        font-size: 0.9em;
+      }
+
+      .result-box p:last-child {
+        margin-bottom: 0;
+        font-size: 1.3em;
+        font-weight: bold;
+        color: #007bff;
+      }
+
+      .tax-breakdown-section {
+        margin-top: 30px;
+        margin-bottom: 30px;
+        text-align: left;
+      }
+
+      .tax-breakdown-section h3 {
+        margin-bottom: 15px;
+        color: #333;
+        font-size: 1.2em;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+
+      table th,
+      table td {
+        border: 1px solid #e0e0e0;
+        padding: 12px;
+        text-align: left;
+        font-size: 0.95em;
+      }
+
+      table th {
+        background-color: #e9ecef;
+        font-weight: bold;
+        color: #555;
+      }
+
+      table tr:nth-child(even) {
+        background-color: #fcfcfc;
+      }
+
+      button {
+        background-color: #ff6347; /* A tomato-like color */
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.1em;
+        margin-top: 20px;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #e55338; /* Darker shade on hover */
+      }
+
+      /* Footer styles */
+      .footer {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #f0f0f0;
+        border-top: 1px solid #e0e0e0;
+        width: 90%;
+        max-width: 700px;
+        text-align: center;
+        border-radius: 8px;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .footer p {
+        margin: 5px 0;
+        font-size: 0.9em;
+        color: #555;
+      }
+
+      .footer a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .footer a:hover {
+        text-decoration: underline;
+      }
+
+      .footer img {
+        max-width: 300px; /* Adjust as needed */
+        height: auto;
+        margin-top: 10px;
+        vertical-align: middle; /* Align image nicely with text if on same line */
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 600px) {
         .results-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 30px;
+          grid-template-columns: 1fr;
         }
-
-        .result-box {
-            background-color: #f8f9fa;
-            border: 1px solid #e2e6ea;
-            border-radius: 6px;
-            padding: 15px 20px;
-            text-align: left;
-        }
-
-        .result-box p:first-child {
-            margin-top: 0;
-            margin-bottom: 5px;
-            color: #777;
-            font-size: 0.9em;
-        }
-
-        .result-box p:last-child {
-            margin-bottom: 0;
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #007bff;
-        }
-
-        .tax-breakdown-section {
-            margin-top: 30px;
-            margin-bottom: 30px;
-            text-align: left;
-        }
-
-        .tax-breakdown-section h3 {
-            margin-bottom: 15px;
-            color: #333;
-            font-size: 1.2em;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-
-        table th, table td {
-            border: 1px solid #e0e0e0;
-            padding: 12px;
-            text-align: left;
-            font-size: 0.95em;
-        }
-
-        table th {
-            background-color: #e9ecef;
-            font-weight: bold;
-            color: #555;
-        }
-
-        table tr:nth-child(even) {
-            background-color: #fcfcfc;
-        }
-
-        button {
-            background-color: #ff6347; /* A tomato-like color */
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.1em;
-            margin-top: 20px;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #e55338; /* Darker shade on hover */
-        }
-
-        /* Footer styles */
-        .footer {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #f0f0f0;
-            border-top: 1px solid #e0e0e0;
-            width: 90%;
-            max-width: 700px;
-            text-align: center;
-            border-radius: 8px;
-            box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
-        }
-
-        .footer p {
-            margin: 5px 0;
-            font-size: 0.9em;
-            color: #555;
-        }
-
-        .footer a {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        .footer img {
-            max-width: 300px; /* Adjust as needed */
-            height: auto;
-            margin-top: 10px;
-            vertical-align: middle; /* Align image nicely with text if on same line */
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 600px) {
-            .results-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="header">
-        <h1>Tax Calculator effective from 01.04.2025</h1>
-        <p>Calculate PAYE, APIT, and Tax on Your Local Salary</p>
-        <p>Calculate the taxable amount for income earned within Sri Lanka, considering the revised tax rates from 01.04.2025.</p>
+      <h1>Tax Calculator effective from 01.04.2025</h1>
+      <p>Calculate PAYE, APIT, and Tax on Your Local Salary</p>
+      <p>
+        Calculate the taxable amount for income earned within Sri Lanka, considering the revised tax rates from
+        01.04.2025.
+      </p>
     </div>
 
     <div class="calculator-container">
-        <h2>Local Tax Calculator</h2>
+      <h2>Local Tax Calculator</h2>
 
-        <div class="input-group">
-            <label for="monthlyIncome">Monthly Income (LKR)</label>
-            <input type="number" id="monthlyIncome" placeholder="e.g., 190000" min="0">
+      <div class="input-group">
+        <label for="monthlyIncome">Monthly Income (LKR)</label>
+        <input type="number" id="monthlyIncome" placeholder="e.g., 190000" min="0" />
+      </div>
+
+      <div class="results-grid">
+        <div class="result-box">
+          <p>Monthly Income (LKR)</p>
+          <p id="monthlyIncomeDisplay">Rs. 0.00</p>
         </div>
-
-        <div class="results-grid">
-            <div class="result-box">
-                <p>Monthly Income (LKR)</p>
-                <p id="monthlyIncomeDisplay">Rs. 0.00</p>
-            </div>
-            <div class="result-box">
-                <p>Annual Income (LKR)</p>
-                <p id="annualIncomeDisplay">Rs. 0.00</p>
-            </div>
-            <div class="result-box">
-                <p>Monthly Tax (LKR)</p>
-                <p id="monthlyTaxDisplay">Rs. 0.00</p>
-            </div>
-            <div class="result-box">
-                <p>Annual Tax (LKR)</p>
-                <p id="annualTaxDisplay">Rs. 0.00</p>
-            </div>
+        <div class="result-box">
+          <p>Annual Income (LKR)</p>
+          <p id="annualIncomeDisplay">Rs. 0.00</p>
         </div>
-
-        <div class="tax-breakdown-section">
-            <h3>Monthly Salary (Annual Salary/12)</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Monthly Income (LKR)</th>
-                        <th>Rate (%)</th>
-                        <th>Tax</th>
-                    </tr>
-                </thead>
-                <tbody id="taxBreakdownTableBody">
-                    <tr>
-                        <td>0 – 150,000</td>
-                        <td>0%</td>
-                        <td>Relief</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="result-box">
+          <p>Monthly Tax (LKR)</p>
+          <p id="monthlyTaxDisplay">Rs. 0.00</p>
         </div>
+        <div class="result-box">
+          <p>Annual Tax (LKR)</p>
+          <p id="annualTaxDisplay">Rs. 0.00</p>
+        </div>
+      </div>
 
-        <button id="resetButton">Reset Calculator</button>
+      <div class="tax-breakdown-section">
+        <h3>Monthly Salary (Annual Salary/12)</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Monthly Income (LKR)</th>
+              <th>Rate (%)</th>
+              <th>Tax</th>
+            </tr>
+          </thead>
+          <tbody id="taxBreakdownTableBody">
+            <tr>
+              <td>0 – 150,000</td>
+              <td>0%</td>
+              <td>Relief</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <button id="resetButton">Reset Calculator</button>
     </div>
 
     <div class="footer">
-        <p>Developed by <a href="https://www.techseed.lk" target="_blank">TechSeed Lanka (Pvt)Ltd.</a></p>
-        <img src="4.png" alt="TechSeed Lanka Logo">
+      <p>Developed by <a href="https://www.techseed.lk" target="_blank">TechSeed Lanka (Pvt)Ltd.</a></p>
+      <img src="4.png" alt="TechSeed Lanka Logo" />
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const monthlyIncomeInput = document.getElementById('monthlyIncome');
-            const monthlyIncomeDisplay = document.getElementById('monthlyIncomeDisplay');
-            const annualIncomeDisplay = document.getElementById('annualIncomeDisplay');
-            const monthlyTaxDisplay = document.getElementById('monthlyTaxDisplay');
-            const annualTaxDisplay = document.getElementById('annualTaxDisplay');
-            const taxBreakdownTableBody = document.getElementById('taxBreakdownTableBody');
-            const resetButton = document.getElementById('resetButton');
+      document.addEventListener("DOMContentLoaded", () => {
+        const monthlyIncomeInput = document.getElementById("monthlyIncome");
+        const monthlyIncomeDisplay = document.getElementById("monthlyIncomeDisplay");
+        const annualIncomeDisplay = document.getElementById("annualIncomeDisplay");
+        const monthlyTaxDisplay = document.getElementById("monthlyTaxDisplay");
+        const annualTaxDisplay = document.getElementById("annualTaxDisplay");
+        const taxBreakdownTableBody = document.getElementById("taxBreakdownTableBody");
+        const resetButton = document.getElementById("resetButton");
 
-            // Define the tax slabs
-            const taxSlabs = [
-                { limit: 150000, rate: 0.00, label: '0 – 150,000', type: 'relief' },
-                { limit: 233333, rate: 0.06, label: '150,001 – 233,333' },
-                { limit: 333333, rate: 0.12, label: '233,334 – 333,333' },
-                { limit: 433333, rate: 0.18, label: '333,334 – 433,333' },
-                { limit: 533333, rate: 0.24, label: '433,334 – 533,333' },
-                { limit: 633333, rate: 0.30, label: '533,334 – 633,333' },
-                { limit: Infinity, rate: 0.36, label: 'Above 633,333' } // Use Infinity for the last slab
-            ];
+        // Define the tax slabs
+        const taxSlabs = [
+          { limit: 150000, rate: 0.0, label: "0 – 150,000", type: "relief" },
+          { limit: 233333, rate: 0.06, label: "150,001 – 233,333" },
+          { limit: 275000, rate: 0.18, label: "233,334 – 275,000" },
+          { limit: 316666, rate: 0.24, label: "275,001 – 316,666" },
+          { limit: 358333, rate: 0.3, label: "316,667 – 358,333" },
+          { limit: Infinity, rate: 0.36, label: "Above 358,333" },
+        ];
 
-            function formatCurrency(amount) {
-                return `Rs. ${amount.toLocaleString('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        function formatCurrency(amount) {
+          return `Rs. ${amount.toLocaleString("en-LK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+
+        function calculateTax() {
+          const monthlyIncome = parseFloat(monthlyIncomeInput.value);
+
+          if (isNaN(monthlyIncome) || monthlyIncome < 0) {
+            monthlyIncomeDisplay.textContent = "Rs. 0.00";
+            annualIncomeDisplay.textContent = "Rs. 0.00";
+            monthlyTaxDisplay.textContent = "Rs. 0.00";
+            annualTaxDisplay.textContent = "Rs. 0.00";
+            renderTaxBreakdown(0); // Clear breakdown
+            return;
+          }
+
+          let totalMonthlyTax = 0;
+          let remainingIncomeForCalculation = monthlyIncome;
+
+          for (let i = 0; i < taxSlabs.length; i++) {
+            const slab = taxSlabs[i];
+            const previousSlabLimit = i === 0 ? 0 : taxSlabs[i - 1].limit;
+
+            if (slab.type === "relief") {
+              // This block ensures that the first 150,000 is correctly handled as tax-free
+            } else {
+              // For taxable slabs
+              let taxableInCurrentSlab = 0;
+              if (monthlyIncome > previousSlabLimit) {
+                taxableInCurrentSlab = Math.min(monthlyIncome, slab.limit) - previousSlabLimit;
+                taxableInCurrentSlab = Math.max(0, taxableInCurrentSlab); // Ensure it's not negative
+
+                const taxForSlab = taxableInCurrentSlab * slab.rate;
+                totalMonthlyTax += taxForSlab;
+              }
             }
+          }
 
-            function calculateTax() {
-                const monthlyIncome = parseFloat(monthlyIncomeInput.value);
+          const annualIncome = monthlyIncome * 12;
+          const annualTax = totalMonthlyTax * 12;
 
-                if (isNaN(monthlyIncome) || monthlyIncome < 0) {
-                    monthlyIncomeDisplay.textContent = 'Rs. 0.00';
-                    annualIncomeDisplay.textContent = 'Rs. 0.00';
-                    monthlyTaxDisplay.textContent = 'Rs. 0.00';
-                    annualTaxDisplay.textContent = 'Rs. 0.00';
-                    renderTaxBreakdown(0); // Clear breakdown
-                    return;
-                }
+          monthlyIncomeDisplay.textContent = formatCurrency(monthlyIncome);
+          annualIncomeDisplay.textContent = formatCurrency(annualIncome);
+          monthlyTaxDisplay.textContent = formatCurrency(totalMonthlyTax);
+          annualTaxDisplay.textContent = formatCurrency(annualTax);
 
-                let totalMonthlyTax = 0;
-                let remainingIncomeForCalculation = monthlyIncome; 
+          renderTaxBreakdown(monthlyIncome);
+        }
 
-                for (let i = 0; i < taxSlabs.length; i++) {
-                    const slab = taxSlabs[i];
-                    const previousSlabLimit = i === 0 ? 0 : taxSlabs[i-1].limit;
-                    
-                    if (slab.type === 'relief') {
-                        // This block ensures that the first 150,000 is correctly handled as tax-free
-                    } else {
-                        // For taxable slabs
-                        let taxableInCurrentSlab = 0;
-                        if (monthlyIncome > previousSlabLimit) {
-                            taxableInCurrentSlab = Math.min(monthlyIncome, slab.limit) - previousSlabLimit;
-                            taxableInCurrentSlab = Math.max(0, taxableInCurrentSlab); // Ensure it's not negative
-                            
-                            const taxForSlab = taxableInCurrentSlab * slab.rate;
-                            totalMonthlyTax += taxForSlab;
-                        }
-                    }
-                }
+        function renderTaxBreakdown(currentIncome) {
+          taxBreakdownTableBody.innerHTML = ""; // Clear previous rows
 
-                const annualIncome = monthlyIncome * 12;
-                const annualTax = totalMonthlyTax * 12;
-
-                monthlyIncomeDisplay.textContent = formatCurrency(monthlyIncome);
-                annualIncomeDisplay.textContent = formatCurrency(annualIncome);
-                monthlyTaxDisplay.textContent = formatCurrency(totalMonthlyTax);
-                annualTaxDisplay.textContent = formatCurrency(annualTax);
-
-                renderTaxBreakdown(monthlyIncome);
-            }
-
-            function renderTaxBreakdown(currentIncome) {
-                taxBreakdownTableBody.innerHTML = ''; // Clear previous rows
-
-                // Initial relief row
-                taxBreakdownTableBody.innerHTML = `
+          // Initial relief row
+          taxBreakdownTableBody.innerHTML = `
                     <tr>
                         <td>0 – 150,000</td>
                         <td>0%</td>
@@ -344,50 +347,54 @@
                     </tr>
                 `;
 
-                let cumulativeLowerLimit = 150000; // Start from where the relief ends
-                for (let i = 1; i < taxSlabs.length; i++) { // Start from the first taxable slab (index 1)
-                    const slab = taxSlabs[i];
-                    const currentSlabUpperLimit = slab.limit;
-                    const slabRate = (slab.rate * 100).toFixed(0);
-                    let taxCalculatedForThisSlab = 0;
-                    
-                    // Calculate income within this specific slab
-                    const incomeInThisSpecificSlab = Math.max(0, Math.min(currentIncome, currentSlabUpperLimit) - cumulativeLowerLimit);
-                    
-                    if (incomeInThisSpecificSlab > 0) {
-                        taxCalculatedForThisSlab = incomeInThisSpecificSlab * slab.rate;
-                    }
-                    
-                    // Only add rows for taxable slabs that the income potentially touches or passes
-                    if (currentIncome > cumulativeLowerLimit) {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
+          let cumulativeLowerLimit = 150000; // Start from where the relief ends
+          for (let i = 1; i < taxSlabs.length; i++) {
+            // Start from the first taxable slab (index 1)
+            const slab = taxSlabs[i];
+            const currentSlabUpperLimit = slab.limit;
+            const slabRate = (slab.rate * 100).toFixed(0);
+            let taxCalculatedForThisSlab = 0;
+
+            // Calculate income within this specific slab
+            const incomeInThisSpecificSlab = Math.max(
+              0,
+              Math.min(currentIncome, currentSlabUpperLimit) - cumulativeLowerLimit
+            );
+
+            if (incomeInThisSpecificSlab > 0) {
+              taxCalculatedForThisSlab = incomeInThisSpecificSlab * slab.rate;
+            }
+
+            // Only add rows for taxable slabs that the income potentially touches or passes
+            if (currentIncome > cumulativeLowerLimit) {
+              const row = document.createElement("tr");
+              row.innerHTML = `
                             <td>${slab.label}</td>
                             <td>${slabRate}%</td>
                             <td>${formatCurrency(taxCalculatedForThisSlab)}</td>
                         `;
-                        taxBreakdownTableBody.appendChild(row);
-                    }
-                    cumulativeLowerLimit = currentSlabUpperLimit;
-                }
+              taxBreakdownTableBody.appendChild(row);
             }
+            cumulativeLowerLimit = currentSlabUpperLimit;
+          }
+        }
 
-            function resetCalculator() {
-                monthlyIncomeInput.value = '';
-                monthlyIncomeDisplay.textContent = 'Rs. 0.00';
-                annualIncomeDisplay.textContent = 'Rs. 0.00';
-                monthlyTaxDisplay.textContent = 'Rs. 0.00';
-                annualTaxDisplay.textContent = 'Rs. 0.00';
-                renderTaxBreakdown(0); // Reset the breakdown table
-            }
+        function resetCalculator() {
+          monthlyIncomeInput.value = "";
+          monthlyIncomeDisplay.textContent = "Rs. 0.00";
+          annualIncomeDisplay.textContent = "Rs. 0.00";
+          monthlyTaxDisplay.textContent = "Rs. 0.00";
+          annualTaxDisplay.textContent = "Rs. 0.00";
+          renderTaxBreakdown(0); // Reset the breakdown table
+        }
 
-            // Event Listeners
-            monthlyIncomeInput.addEventListener('input', calculateTax);
-            resetButton.addEventListener('click', resetCalculator);
+        // Event Listeners
+        monthlyIncomeInput.addEventListener("input", calculateTax);
+        resetButton.addEventListener("click", resetCalculator);
 
-            // Initial calculation on page load
-            calculateTax();
-        });
+        // Initial calculation on page load
+        calculateTax();
+      });
     </script>
-</body>
+  </body>
 </html>
