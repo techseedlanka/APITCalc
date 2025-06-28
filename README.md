@@ -32,15 +32,15 @@ A simple, responsive, and user-friendly web-based calculator designed to estimat
 
 ## 📊 Tax Slabs (Effective from 01.04.2025 - Monthly Income)
 
-| Monthly Income (LKR) | Tax Rate | Tax Applied |
-| :------------------- | :------- | :---------- |
-| 0 – 150,000          | 0%       | Relief      |
-| 150,001 – 233,333    | 6%       | (Income - 150,000) * 6% |
-| 233,334 – 333,333    | 12%      | (Income - 233,333) * 12% + Tax from previous slabs |
-| 333,334 – 433,333    | 18%      | (Income - 333,333) * 18% + Tax from previous slabs |
-| 433,334 – 533,333    | 24%      | (Income - 433,333) * 24% + Tax from previous slabs |
-| 533,334 – 633,333    | 30%      | (Income - 533,333) * 30% + Tax from previous slabs |
-| Above 633,333        | 36%      | (Income - 633,333) * 36% + Tax from previous slabs |
+| **Monthly Income Range (LKR)** | **Tax Rate** | **Tax Calculation Formula**                          |
+| ------------------------------ | ------------ | ---------------------------------------------------- |
+| 0 – 150,000                    | 0%           | No tax (Relief)                                      |
+| 150,001 – 233,333              | 6%           | `(Income - 150,000) × 6%`                            |
+| 233,334 – 275,000              | 18%          | `(Income - 233,333) × 18% + Tax from previous slabs` |
+| 275,001 – 316,666              | 24%          | `(Income - 275,000) × 24% + Tax from previous slabs` |
+| 316,667 – 358,333              | 30%          | `(Income - 316,666) × 30% + Tax from previous slabs` |
+| 358,334 and above              | 36%          | `(Income - 358,333) × 36% + Tax from previous slabs` |
+
 
 *This calculator provides an estimation based on the provided tax rates and should not be considered legal or financial advice. Always consult with a qualified professional for precise tax planning.*
 
