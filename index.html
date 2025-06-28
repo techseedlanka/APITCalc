@@ -157,6 +157,10 @@
         background-color: #e55338; /* Darker shade on hover */
       }
 
+      .button-group {
+        margin-top: 20px;
+      }
+
       /* Footer styles */
       .footer {
         margin-top: 20px;
@@ -200,6 +204,9 @@
         }
       }
     </style>
+    <!-- Add jsPDF and html2canvas CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   </head>
   <body>
     <div class="header">
@@ -211,8 +218,8 @@
       </p>
     </div>
 
-    <div class="calculator-container">
-      <h2>Local Tax Calculator</h2>
+    <div class="calculator-container" id="taxReportContainer">
+      <h2>Advance Personal Income Tax </h2>
 
       <div class="input-group">
         <label for="monthlyIncome">Monthly Income (LKR)</label>
@@ -258,10 +265,13 @@
         </table>
       </div>
 
-      <button id="resetButton">Reset Calculator</button>
+      <div class="button-group" id="buttonGroup">
+        <button id="resetButton">Reset Calculator</button>
+        <button id="printButton">Print Tax Report</button>
+      </div>
     </div>
 
-    <div class="footer">
+    <div class="footer" id="footerSection">
       <p>Developed by <a href="https://www.techseed.lk" target="_blank">TechSeed Lanka (Pvt)Ltd.</a></p>
       <img src="4.png" alt="TechSeed Lanka Logo" />
     </div>
@@ -340,12 +350,12 @@
 
           // Initial relief row
           taxBreakdownTableBody.innerHTML = `
-                    <tr>
-                        <td>0 – 150,000</td>
-                        <td>0%</td>
-                        <td>Relief</td>
-                    </tr>
-                `;
+                         <tr>
+                             <td>0 – 150,000</td>
+                             <td>0%</td>
+                             <td>Relief</td>
+                         </tr>
+                     `;
 
           let cumulativeLowerLimit = 150000; // Start from where the relief ends
           for (let i = 1; i < taxSlabs.length; i++) {
@@ -369,10 +379,10 @@
             if (currentIncome > cumulativeLowerLimit) {
               const row = document.createElement("tr");
               row.innerHTML = `
-                            <td>${slab.label}</td>
-                            <td>${slabRate}%</td>
-                            <td>${formatCurrency(taxCalculatedForThisSlab)}</td>
-                        `;
+                                 <td>${slab.label}</td>
+                                 <td>${slabRate}%</td>
+                                 <td>${formatCurrency(taxCalculatedForThisSlab)}</td>
+                             `;
               taxBreakdownTableBody.appendChild(row);
             }
             cumulativeLowerLimit = currentSlabUpperLimit;
@@ -394,6 +404,50 @@
 
         // Initial calculation on page load
         calculateTax();
+      });
+
+      const printButton = document.getElementById("printButton");
+
+      printButton.addEventListener("click", () => {
+        const printButton = document.getElementById("printButton");
+
+        printButton.addEventListener("click", () => {
+          const container = document.getElementById("taxReportContainer");
+          const footer = document.getElementById("footerSection");
+          const buttonGroup = document.getElementById("buttonGroup");
+
+          // Hide buttons before rendering
+          buttonGroup.style.display = "none";
+
+          // Clone relevant sections
+          const tempContainer = container.cloneNode(true);
+          const tempFooter = footer.cloneNode(true);
+
+          const tempDiv = document.createElement("div");
+          tempDiv.style.padding = "20px";
+          tempDiv.style.backgroundColor = "#ffffff";
+          tempDiv.appendChild(tempContainer);
+          tempDiv.appendChild(tempFooter);
+
+          document.body.appendChild(tempDiv);
+
+          html2canvas(tempDiv, { scale: 2 }).then((canvas) => {
+            const imgData = canvas.toDataURL("image/png");
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF("p", "mm", "a4");
+            const imgProps = pdf.getImageProperties(imgData);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+            pdf.save("Tax_Report.pdf");
+
+            document.body.removeChild(tempDiv); // Clean up
+
+            // Show buttons back after printing
+            buttonGroup.style.display = "block";
+          });
+        });
       });
     </script>
   </body>
